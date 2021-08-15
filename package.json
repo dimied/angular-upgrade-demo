@@ -1,0 +1,25 @@
+{
+  "name": "angular-upgrade-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "app-old": "echo \"Start AngularJS app\"",
+    "app-mix": "echo \"Start AngularJS / Angular app\"",
+    "app-new": "echo \"Start Angular app\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimied/angular-upgrade-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dimied/angular-upgrade-demo/issues"
+  },
+  "homepage": "https://github.com/dimied/angular-upgrade-demo#readme",
+  "dependencies": {
+    "angular-material": "^1.2.3"
+  }
+}

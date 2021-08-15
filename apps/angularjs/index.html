@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <link rel="stylesheet" href="angular-material.css" />
+    <script src="angular.js"></script>
+    <script src="angular-animate.js"></script>
+    <script src="angular-aria.js"></script>
+    <script src="angular-material.js"></script>
+
+    <script>
+      var a = ["a"];
+    </script>
+  </head>
+  <body style="height: 100%">
+    <script>
+      var app = angular.module("myApp", ["ngAnimate", "ngAria", "ngMaterial"]);
+
+      var Ctrl = function ($scope, $timeout, $mdSidenav) {
+        $scope.arr = a;
+        $scope.double = function (value) {
+          return value * 2;
+        };
+        $scope.toggleLeft = buildDelayedToggler("left");
+
+        $scope.close = function () {
+      // Component lookup should always be available since we are not using `ng-if`
+      $mdSidenav('left').close()
+        .then(function () {
+        });
+
+    };
+
+        /**
+         * Supplies a function that will continue to operate until the
+         * time is up.
+         */
+        function debounce(func, wait, context) {
+          var timer;
+
+          return function debounced() {
+            var context = $scope,
+              args = Array.prototype.slice.call(arguments);
+            $timeout.cancel(timer);
+            timer = $timeout(function () {
+              timer = undefined;
+              func.apply(context, args);
+            }, wait || 10);
+          };
+        }
+        /**
+         * Build handler to open/close a SideNav; when animation finishes
+         * report completion in console
+         */
+        function buildDelayedToggler(navID) {
+          return debounce(function () {
+            // Component lookup should always be available since we are not using `ng-if`
+            $mdSidenav(navID)
+              .toggle()
+              .then(function () {
+                console.log("toggle " + navID + " is done");
+              });
+          }, 200);
+        }
+      };
+
+      app.controller("Ctrl", ["$scope", "$timeout", "$mdSidenav", Ctrl]);
+    </script>
+    <div ng-controller="Ctrl">
+      Two times <input ng-model="num" /> equals {{ double(num) }}
+      <ul ng-repeat="v in arr">
+        <li>{{v}}</li>
+      </ul>
+      <hr />
+      <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
+        Toggle left
+      </md-button>
+
+      <div layout="column" style="height: 500px" ng-cloak>
+        <section layout="row" flex>
+          <md-sidenav class="md-sidenav-left" md-component-id='left'>
+            <md-toolbar class="md-theme-indigo">
+              <h1 class="md-toolbar-tools">Sidenav Left</h1>
+            </md-toolbar>
+            <md-content layout-padding>
+              <md-button ng-click="close()" class="md-primary" hide-gt-md>
+                Close Sidenav Left
+              </md-button>
+              <p hide show-gt-md>
+                This sidenav is locked open on your device. To go back to the
+                default behavior, narrow your display.
+              </p>
+            </md-content>
+          </md-sidenav>
+
+          <md-content flex layout-padding>
+            <div layout="column" layout-align="top center">
+              <div>Content</div>
+            </div>
+
+            <div flex></div>
+          </md-content>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
